@@ -10,13 +10,8 @@
 #ifndef CONVERTER_H
 #define CONVERTER_H
 
-struct point {
-    double x;
-    double y;
-};
+#include "point.h"
 
-static const struct point EMPTYPOINT;
-
-struct point* convert(struct point* pt, const char* const inWkt, const char* outWkt);
+struct Point* convert(struct Point* pt, const char* const inWkt, const char* outWkt);
 
 #endif

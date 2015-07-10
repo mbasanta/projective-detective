@@ -13,6 +13,7 @@
 #include <string.h>
 #include <libconfig.h>
 #include "converter.h"
+#include "point.h"
 
 double find_delta(int x1, int y1, int x2, int y2)
 {
@@ -42,13 +43,9 @@ int main() {
     if (setting != NULL)
     {
         /* Create our test point */
-        struct point *pt = malloc(sizeof *pt);
-        pt->x = -84;
-        pt->y = 38;
-
-        struct point *target = malloc(sizeof *target);
-        target->x = 5425460;
-        target->y = 3892419.8;
+        struct Point *pt = newPoint(-84, 38);
+        /* Create our target point */
+        struct Point *target = newPoint(5425460, 3892419.8);
 
         int count = config_setting_length(setting);
         int i;
@@ -72,18 +69,18 @@ int main() {
 
             /* printf("wkt -- %s\n\n", wkt); */
 
-            struct point *newPt = convert(pt, wgs84, wkt);
+            struct Point *newPt = convert(pt, wgs84, wkt);
             double delta = find_delta(target->x, target->y, newPt->x, newPt->y) * unit_factor;
 
             /* printf("Input -- x: %f, y: %f\n", pt->x, pt->y); */
             /* printf("Output -- x: %f, y: %f\n", newPt->x, newPt->y); */
             printf("%s delta = %lf\n", name, delta);
 
-            free(newPt);
+            delPoint(newPt);
         }
 
-        free(pt);
-        free(target);
+        delPoint(pt);
+        delPoint(target);
     }
 
     return 0;
