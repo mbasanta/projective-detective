@@ -93,18 +93,30 @@ int main() {
     /* Create a test comparison */
     Comparison *comparison;
     createNewComparisonWithVals(&comparison, 1, 10, "asdf");
-    Comparison *newComparison = addNewComparisonToList(list);
-    newComparison->projection = "qwerty";
-    newComparison->delta = 2;
-    newComparison->unit_factor = 20;
+    Comparison *newComparison;
+    createNewComparisonWithVals(&newComparison, 2, 20, "querty");
+    Comparison *thirdComparison;
+    createNewComparisonWithVals(&thirdComparison, 3, 30, "third");
+    Comparison *fourthComparison;
+    createNewComparisonWithVals(&fourthComparison, 4, 40, "fourth");
+    Comparison *fifthComparison;
+    createNewComparisonWithVals(&fifthComparison, 5, 50, "fifth");
+    Comparison *sixthComparison;
+    createNewComparisonWithVals(&sixthComparison, 6, 60, "sixth");
+
+    addComparisonToList(&list, &comparison);
+    addComparisonToList(&list, &newComparison);
+    addComparisonToList(&list, &thirdComparison);
+    addComparisonToList(&list, &fourthComparison);
+    addComparisonToList(&list, &fifthComparison);
+    addComparisonToList(&list, &sixthComparison);
 
     printf("Size -- %lu\n", list[0].size);
     unsigned long i;
     for (i = 0; i < list[0].size; i++) {
         Comparison *comp = getComparisonByIndex(&list, i);
         printf("get %lu\n", i);
-        if (comp)
-        {
+        if (comp) {
             printf("Comp %lu -- %s\n", i + 1, comp->projection);
         }
     }
