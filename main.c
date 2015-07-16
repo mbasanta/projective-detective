@@ -41,6 +41,10 @@ int main() {
         return(EXIT_FAILURE);
     }
 
+    /* Create the list */
+    ComparisonList *list;
+    createNewComparisonList(&list, 3);
+
     /* Get our projections setting */
     setting = config_lookup(&cfg, "projections");
     if (setting != NULL)
@@ -86,15 +90,12 @@ int main() {
         delPoint(target);
     }
 
-    /* Create the list */
-    ComparisonList *list;
-    createNewComparisonList(&list, 5);
 
     /* Create a test comparison */
     Comparison *comparison;
-    createNewComparisonWithVals(&comparison, 1, 10, "asdf");
+    createNewComparisonWithVals(&comparison, 1, 10, "first");
     Comparison *newComparison;
-    createNewComparisonWithVals(&newComparison, 2, 20, "querty");
+    createNewComparisonWithVals(&newComparison, 2, 20, "second");
     Comparison *thirdComparison;
     createNewComparisonWithVals(&thirdComparison, 3, 30, "third");
     Comparison *fourthComparison;
@@ -104,18 +105,20 @@ int main() {
     Comparison *sixthComparison;
     createNewComparisonWithVals(&sixthComparison, 6, 60, "sixth");
 
-    addComparisonToList(&list, &comparison);
     addComparisonToList(&list, &newComparison);
     addComparisonToList(&list, &thirdComparison);
     addComparisonToList(&list, &fourthComparison);
     addComparisonToList(&list, &fifthComparison);
     addComparisonToList(&list, &sixthComparison);
+    addComparisonToList(&list, &comparison);
+
+    /* Throws Error need to rework comparisons to create a copy for the object*/
+    destroyComparison(&comparison);
 
     printf("Size -- %lu\n", list[0].size);
     unsigned long i;
     for (i = 0; i < list[0].size; i++) {
         Comparison *comp = getComparisonByIndex(&list, i);
-        printf("get %lu\n", i);
         if (comp) {
             printf("Comp %lu -- %s\n", i + 1, comp->projection);
         }

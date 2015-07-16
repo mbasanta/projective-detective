@@ -62,16 +62,31 @@ void destroyComparisonList(ComparisonList ** list)
 
 void addComparisonToList(ComparisonList ** list, Comparison ** comparison)
 {
-    int newComparisonCount = (*list)->size + 1;
-    size_t newSize = newComparisonCount * sizeof(Comparison *);
-    Comparison ** newComparison = realloc((*list)->comparisons, newSize);
-
-    if (newComparison == NULL) { return; }
-
     if ((*list)->size >= (*list)->maxSize) {
-        printf("size is greater than or equal to maxSize\n");
+        /* Make sure we have something to work with */
+        if ((*list)->comparisons[0] == NULL) { return; }
+
+        int largestIndex = -1;
+        double largestDelta = (*comparison)->delta;
+        /* Loop through the rest of the list */
+        for (unsigned long i = 0; i < (*list)->size; i++) {
+            if ((*list)->comparisons[i]->delta > largestDelta) {
+                largestIndex = i;
+                largestDelta = (*list)->comparisons[i]->delta;
+            }
+        }
+
+        /* If we have a larger delta, replace it */
+        if (largestIndex >= 0) {
+            (*list)->comparisons[largestIndex] = *comparison;
+        }
     } else {
-        printf("size is less than maxSize\n");
+        int newComparisonCount = (*list)->size + 1;
+        size_t newSize = newComparisonCount * sizeof(Comparison *);
+        Comparison ** newComparison = realloc((*list)->comparisons, newSize);
+
+        if (newComparison == NULL) { return; }
+
         (*list)->size = newComparisonCount;
         (*list)->comparisons = newComparison;
         (*list)->comparisons[newComparisonCount - 1] = *comparison;
