@@ -35,9 +35,7 @@ void createNewComparisonList(ComparisonList ** list, int size);
 
 void destroyComparisonList(ComparisonList ** list);
 
-/* void addComparisonToList(ComparisonList ** list, Comparison ** comparison); */
-
-Comparison * addNewComparisonToList(ComparisonList * list);
+void addComparisonToList(ComparisonList ** list, Comparison ** comparison);
 
 Comparison *getComparisonByIndex(ComparisonList ** list, int index);
 

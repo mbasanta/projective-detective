@@ -47,14 +47,8 @@ void createNewComparisonList(ComparisonList ** list, int size)
     (*list) = malloc(sizeof(ComparisonList));
     /* Create a new list of struct pointers */
     (*list)->maxSize = size;
-    (*list)->size = 1;
-    (*list)->comparisons = malloc((*list)->size * sizeof(Comparison *));
-    /* Initialize new structs */
-    unsigned long i;
-    for (i = 0; i < (*list)->size; i++) {
-        (*list)->comparisons[i] = NULL;
-
-    }
+    (*list)->size = 0;
+    (*list)->comparisons = NULL;
 }
 
 void destroyComparisonList(ComparisonList ** list)
@@ -68,21 +62,20 @@ void destroyComparisonList(ComparisonList ** list)
 
 void addComparisonToList(ComparisonList ** list, Comparison ** comparison)
 {
-    (*list)->comparisons[1] = *comparison;
-}
-
-Comparison * addNewComparisonToList(ComparisonList * list)
-{
-    int newComparisonCount = list->size + 1;
+    int newComparisonCount = (*list)->size + 1;
     size_t newSize = newComparisonCount * sizeof(Comparison *);
-    Comparison ** newComparison = realloc(list->comparisons, newSize);
-    if (newComparison != NULL) {
-        list->size = newSize;
-        list->comparisons = newComparison;
-        createNewComparison(&(newComparison[newComparisonCount - 1]));
-        return newComparison[newComparisonCount -1];
+    Comparison ** newComparison = realloc((*list)->comparisons, newSize);
+
+    if (newComparison == NULL) { return; }
+
+    if ((*list)->size >= (*list)->maxSize) {
+        printf("size is greater than or equal to maxSize\n");
+    } else {
+        printf("size is less than maxSize\n");
+        (*list)->size = newComparisonCount;
+        (*list)->comparisons = newComparison;
+        (*list)->comparisons[newComparisonCount - 1] = *comparison;
     }
-    return NULL;
 }
 
 Comparison *getComparisonByIndex(ComparisonList ** list, int index)
