@@ -14,6 +14,7 @@
 #include <libconfig.h>
 #include "converter.h"
 #include "point.h"
+#include "comparisons.h"
 
 double find_delta(int x1, int y1, int x2, int y2)
 {
@@ -24,13 +25,14 @@ int main() {
 
     const char* wgs84 = "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.01745329251994328,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4326\"]]";
 
+    /* Get our settings file info */
     config_t cfg;
     config_setting_t* setting;
 
     config_init(&cfg);
     config_set_auto_convert(&cfg, 1);
 
-    /* Exit if there's a error */
+    /* Exit if there's a error with the settings file */
     if (!config_read_file(&cfg, "projections.cfg"))
     {
         fprintf(stderr, "%s:%d - %s\n", config_error_file(&cfg),
@@ -39,6 +41,7 @@ int main() {
         return(EXIT_FAILURE);
     }
 
+    /* Get our projections setting */
     setting = config_lookup(&cfg, "projections");
     if (setting != NULL)
     {
@@ -82,6 +85,32 @@ int main() {
         delPoint(pt);
         delPoint(target);
     }
+
+    /* Create the list */
+    ComparisonList *list;
+    createNewComparisonList(&list, 5);
+
+    /* Create a test comparison */
+    Comparison *comparison;
+    createNewComparisonWithVals(&comparison, 1, 10, "asdf");
+    Comparison *newComparison = addNewComparisonToList(list);
+    newComparison->projection = "qwerty";
+    newComparison->delta = 2;
+    newComparison->unit_factor = 20;
+
+    printf("Size -- %lu\n", list[0].size);
+    unsigned long i;
+    for (i = 0; i < list[0].size; i++) {
+        Comparison *comp = getComparisonByIndex(&list, i);
+        printf("get %lu\n", i);
+        if (comp)
+        {
+            printf("Comp %lu -- %s\n", i + 1, comp->projection);
+        }
+    }
+
+    destroyComparisonList(&list);
+    /* printf("Comp 5 -- %s\n", list[4].comparisons->projection); */
 
     return 0;
 }
