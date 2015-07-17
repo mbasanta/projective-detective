@@ -60,14 +60,18 @@ void destroyComparisonList(ComparisonList ** list)
     }
 }
 
-void addComparisonToList(ComparisonList ** list, Comparison ** comparison)
+void addComparisonToList(ComparisonList ** list, Comparison * comparison)
 {
+    Comparison *comparisonToAdd;
+    createNewComparisonWithVals(&comparisonToAdd,
+            comparison->unit_factor, comparison->delta, comparison->projection);
+
     if ((*list)->size >= (*list)->maxSize) {
         /* Make sure we have something to work with */
         if ((*list)->comparisons[0] == NULL) { return; }
 
         int largestIndex = -1;
-        double largestDelta = (*comparison)->delta;
+        double largestDelta = comparison->delta;
         /* Loop through the rest of the list */
         for (unsigned long i = 0; i < (*list)->size; i++) {
             if ((*list)->comparisons[i]->delta > largestDelta) {
@@ -78,18 +82,20 @@ void addComparisonToList(ComparisonList ** list, Comparison ** comparison)
 
         /* If we have a larger delta, replace it */
         if (largestIndex >= 0) {
-            (*list)->comparisons[largestIndex] = *comparison;
+            (*list)->comparisons[largestIndex] = comparisonToAdd;
+        } else {
+            destroyComparison(&comparisonToAdd);
         }
     } else {
         int newComparisonCount = (*list)->size + 1;
         size_t newSize = newComparisonCount * sizeof(Comparison *);
-        Comparison ** newComparison = realloc((*list)->comparisons, newSize);
+        Comparison ** newComparisons = realloc((*list)->comparisons, newSize);
 
-        if (newComparison == NULL) { return; }
+        if (newComparisons == NULL) { return; }
 
         (*list)->size = newComparisonCount;
-        (*list)->comparisons = newComparison;
-        (*list)->comparisons[newComparisonCount - 1] = *comparison;
+        (*list)->comparisons = newComparisons;
+        (*list)->comparisons[newComparisonCount - 1] = comparisonToAdd;
     }
 }
 

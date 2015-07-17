@@ -90,7 +90,6 @@ int main() {
         delPoint(target);
     }
 
-
     /* Create a test comparison */
     Comparison *comparison;
     createNewComparisonWithVals(&comparison, 1, 10, "first");
@@ -105,14 +104,14 @@ int main() {
     Comparison *sixthComparison;
     createNewComparisonWithVals(&sixthComparison, 6, 60, "sixth");
 
-    addComparisonToList(&list, &newComparison);
-    addComparisonToList(&list, &thirdComparison);
-    addComparisonToList(&list, &fourthComparison);
-    addComparisonToList(&list, &fifthComparison);
-    addComparisonToList(&list, &sixthComparison);
-    addComparisonToList(&list, &comparison);
+    addComparisonToList(&list, newComparison);
+    addComparisonToList(&list, thirdComparison);
+    addComparisonToList(&list, fourthComparison);
+    addComparisonToList(&list, fifthComparison);
+    addComparisonToList(&list, sixthComparison);
+    addComparisonToList(&list, comparison);
 
-    /* Throws Error need to rework comparisons to create a copy for the object*/
+    /* Throws Error need to rework comparisons to create a copy for the object */
     destroyComparison(&comparison);
 
     printf("Size -- %lu\n", list[0].size);
