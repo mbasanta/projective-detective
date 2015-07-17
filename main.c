@@ -45,6 +45,9 @@ int main() {
     ComparisonList *list;
     createNewComparisonList(&list, 3);
 
+    /* Create our memory to hold the comparisons */
+    Comparison *comparison;
+
     /* Get our projections setting */
     setting = config_lookup(&cfg, "projections");
     if (setting != NULL)
@@ -74,14 +77,12 @@ int main() {
                 continue;
             }
 
-            /* printf("wkt -- %s\n\n", wkt); */
-
             struct Point *newPt = convert(pt, wgs84, wkt);
             double delta = find_delta(target->x, target->y, newPt->x, newPt->y) * unit_factor;
 
-            /* printf("Input -- x: %f, y: %f\n", pt->x, pt->y); */
-            /* printf("Output -- x: %f, y: %f\n", newPt->x, newPt->y); */
             printf("%s delta = %lf\n", name, delta);
+            createNewComparisonWithVals(&comparison, unit_factor, delta, (char*) name);
+            addComparisonToList(&list, comparison);
 
             delPoint(newPt);
         }
@@ -90,28 +91,6 @@ int main() {
         delPoint(target);
     }
 
-    /* Create a test comparison */
-    Comparison *comparison;
-    createNewComparisonWithVals(&comparison, 1, 10, "first");
-    Comparison *newComparison;
-    createNewComparisonWithVals(&newComparison, 2, 20, "second");
-    Comparison *thirdComparison;
-    createNewComparisonWithVals(&thirdComparison, 3, 30, "third");
-    Comparison *fourthComparison;
-    createNewComparisonWithVals(&fourthComparison, 4, 40, "fourth");
-    Comparison *fifthComparison;
-    createNewComparisonWithVals(&fifthComparison, 5, 50, "fifth");
-    Comparison *sixthComparison;
-    createNewComparisonWithVals(&sixthComparison, 6, 60, "sixth");
-
-    addComparisonToList(&list, newComparison);
-    addComparisonToList(&list, thirdComparison);
-    addComparisonToList(&list, fourthComparison);
-    addComparisonToList(&list, fifthComparison);
-    addComparisonToList(&list, sixthComparison);
-    addComparisonToList(&list, comparison);
-
-    /* Throws Error need to rework comparisons to create a copy for the object */
     destroyComparison(&comparison);
 
     printf("Size -- %lu\n", list[0].size);
@@ -119,12 +98,11 @@ int main() {
     for (i = 0; i < list[0].size; i++) {
         Comparison *comp = getComparisonByIndex(&list, i);
         if (comp) {
-            printf("Comp %lu -- %s\n", i + 1, comp->projection);
+            printf("Comp %lu -- %s (%f)\n", i + 1, comp->projection, comp->delta);
         }
     }
 
     destroyComparisonList(&list);
-    /* printf("Comp 5 -- %s\n", list[4].comparisons->projection); */
 
     return 0;
 }
