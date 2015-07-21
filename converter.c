@@ -13,7 +13,7 @@
 
 /* convert: convert point from one projection to another*/
 struct Point* convert(struct Point* pt, const char* inWkt, const char* outWkt) {
-    GDALAllRegister();
+    /* GDALAllRegister(); */
 
     void *transformer = GDALCreateReprojectionTransformer(inWkt, outWkt);
     if (transformer == NULL) {
@@ -28,6 +28,8 @@ struct Point* convert(struct Point* pt, const char* inWkt, const char* outWkt) {
 
     struct Point *returnPt = newPoint(0, 0);
     int success = GDALReprojectionTransform(transformer, FALSE, 1, x, y, z, projectionSuccess);
+    GDALDestroyReprojectionTransformer(transformer);
+
     if (success && projectionSuccess[0]) {
         returnPt->x = x[0];
         returnPt->y = y[0];
