@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <h1>What is this thing?</h1>
+    <p class="lead">
+      Have you ever had this problem? You have a set of coordinates and you know
+      where they are (building, intersection, etc.) but you have no idea in what
+      projection they are. Don't you wish you could try every projection in
+      existance and see what lines up? Now you can, Enter the Projective Detective!
+    </p>
+  </div>
+
+  <div class="row">
+    <h2>Enter Info</h2>
+    <form role="form" ng-submit="findProjections()">
+      <div class="input-group">
+        <input type="text" ng-model="inputform.x" placeholder="Unknown X" class="form-control">
+        <input type="text" ng-model="inputform.y" placeholder="Unknown Y" class="form-control">
+      </div>
+      <div class="input-group">
+        <input type="text" ng-model="inputform.lat" placeholder="Known Latitude" class="form-control">
+        <input type="text" ng-model="inputform.lng" placeholder="Known Longitude" class="form-control">
+      </div>
+      <span class="input-group-btn">
+        <input type="submit" class="btn btn-primary" value="Find">
+      </span>
+    </form>
+  </div>
+
+  <div class="row">
+    <h2>Possible Matches</h2>
+    <ul>
+      <li ng-repeat="(key, value) in matches">
+      {{key}} ({{value}})
+      </li>
+    </ul>
+  </div>
+
+</div>
