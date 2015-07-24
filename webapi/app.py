@@ -8,9 +8,11 @@
 # pylint: disable=unused-argument
 
 from flask import Flask, jsonify, make_response, request, abort
+from flask.ext.cors import CORS
 import ctypes
 
 app = Flask(__name__)
+cors = CORS(app)
 
 DEFAULT_RETURN_COUNT = 5
 
@@ -21,7 +23,6 @@ class Match(ctypes.Structure):
 
 def get_candidates(lng, lat, x, y, count=5):
     '''Main tester function'''
-    print "count: ", count
     proj_detective = ctypes.CDLL("projective-detective.so")
     proj_detective.find_projection.restype = ctypes.POINTER(Match)
     proj_detective.find_projection.argtypes = [
@@ -49,6 +50,11 @@ def not_found(error):
 def method_not_allowed(error):
     '''Return 405 Error'''
     return make_response(jsonify({'error': 'Method Not Allowed'}), 405)
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    '''Return 500 Error'''
+    return make_response(jsonify({'error': 'Internal Server Error'}), 500)
 
 @app.route('/')
 def index():
@@ -79,7 +85,7 @@ def find_proj():
     else:
         count = DEFAULT_RETURN_COUNT
 
-    return jsonify(get_candidates(lng, lat, x, y, count)), 200
+    return jsonify({"matches": get_candidates(lng, lat, x, y, count)}), 200
     # return jsonify(get_candidates(-84, 38, 1712479.21678, 182207.371943, count)), 201
     # return jsonify(get_candidates(-84, 38, 5425460, 3892419.8, 5)), 201
 
