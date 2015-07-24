@@ -11,8 +11,13 @@
  */
 angular.module('projectiveDetectiveApp')
   .controller('MainCtrl', function ($scope, FindProj) {
-    $scope.numberOptions = [5, 10, 15, 20, 25];
+    var map;
+    var marker = null;
+
     $scope.matches = {};
+
+    $scope.numberOptions = [5, 10, 15, 20, 25];
+
     $scope.inputform = {
       x: "511084.873897",
       y: "106120.919667",
@@ -34,7 +39,29 @@ angular.module('projectiveDetectiveApp')
           console.log('fail');
         }
       );
-    };
+    }; //findProjections
+
+    $scope.$on('mapInitialized', function(evt, evtMap) {
+      map = evtMap;
+
+      $scope.clearMarker = function() {
+        if (marker) {
+          marker.setMap(null);
+          marker = null;
+        }
+      }; //clearMarker
+
+      $scope.placeMarker = function(e) {
+        $scope.clearMarker();
+
+        marker = new google.maps.Marker({position: e.latLng, map: map});
+
+        $scope.inputform.lat = e.latLng.lat();
+        $scope.inputform.lng = e.latLng.lng();
+
+        map.panTo(e.latLng);
+      }; //placeMarker
+    }); //$on
   });
 
 })(angular);

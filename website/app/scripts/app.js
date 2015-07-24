@@ -14,7 +14,8 @@ angular
   .module('projectiveDetectiveApp', [
     'ngMessages',
     'ngResource',
-    'ngRoute'
+    'ngRoute',
+    'ngMap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
