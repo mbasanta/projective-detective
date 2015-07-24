@@ -10,8 +10,8 @@
  * Service for the REST resources of the projectiveDetectiveApp
  */
 angular.module('projectiveDetectiveApp')
-  .factory('FindProj', function ($resource) {
-    return $resource('http://localhost:5000/find_proj');
+  .factory('FindProj', function ($resource, AppConfig) {
+    return $resource(AppConfig.apiUrl + '/find_proj');
   });
 
 })(angular);

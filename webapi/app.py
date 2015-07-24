@@ -14,7 +14,7 @@ import ctypes
 app = Flask(__name__)
 cors = CORS(app)
 
-DEFAULT_RETURN_COUNT = 5
+DEFAULT_NUMBER_OF_MATCHES = 5
 
 class Match(ctypes.Structure):
     '''Python class to mirror match struct in c'''
@@ -80,12 +80,12 @@ def find_proj():
     lng = float(request.args['lng'])
     lat = float(request.args['lat'])
 
-    if 'count' in request.args:
-        count = int(request.args['count'])
+    if 'numberOfMatches' in request.args:
+        numberOfMatches = int(request.args['numberOfMatches'])
     else:
-        count = DEFAULT_RETURN_COUNT
+        numberOfMatches = DEFAULT_NUMBER_OF_MATCHES
 
-    return jsonify({"matches": get_candidates(lng, lat, x, y, count)}), 200
+    return jsonify({"matches": get_candidates(lng, lat, x, y, numberOfMatches)}), 200
     # return jsonify(get_candidates(-84, 38, 1712479.21678, 182207.371943, count)), 201
     # return jsonify(get_candidates(-84, 38, 5425460, 3892419.8, 5)), 201
 

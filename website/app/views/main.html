@@ -17,12 +17,12 @@
         unknown projection.
       </h5>
       <div class="form-group">
-        <label class="sr-only" for="inputformX">Unknown X</label>
+        <label for="inputformX">Unknown X</label>
         <input type="text" class="form-control" id="inputformX"
           ng-model="inputform.x" placeholder="Unknown X">
       </div>
       <div class="form-group">
-        <label class="sr-only" for="inputformY">Unknown Y</label>
+        <label for="inputformY">Unknown Y</label>
         <input type="text" class="form-control" id="inputformY"
           ng-model="inputform.y" placeholder="Unknown Y">
       </div>
@@ -30,14 +30,23 @@
         Enter the known location in WGS84 Lat/Lng. This should be in decimal degrees.
       </h5>
       <div class="form-group">
-        <label class="sr-only" for="inputformLat">Known Lat</label>
+        <label for="inputformLat">Known Lat</label>
         <input type="text" class="form-control" id="inputformLat"
           ng-model="inputform.lat" placeholder="Known Lat">
       </div>
       <div class="form-group">
-        <label class="sr-only" for="inputformLng">Known Lng</label>
+        <label for="inputformLng">Known Lng</label>
         <input type="text" class="form-control" id="inputformLng"
           ng-model="inputform.lng" placeholder="Known Lng">
+      </div>
+      <div class="form-group">
+        <label for="inputformNumberOfMatches">
+          Number of Matches to return
+        </label>
+        <select class="form-control" id="inputformNumberOfMatches"
+            ng-model="inputform.numberOfMatches"
+            ng-options="item for item in numberOptions">
+        </select>
       </div>
       <input type="submit" class="btn btn-primary" value="Find">
     </form>
@@ -45,6 +54,11 @@
 
   <div class="row">
     <h2>Possible Matches</h2>
+    <p>
+      The number in parenthesis at the end is the distance in meters between the
+      unknown point, projected in the given coordinate system, and the
+      known Lat/Lng location. Smaller is better.
+    </p>
     <ul>
       <li ng-repeat="(key, value) in matches">
       {{key}} ({{value}})

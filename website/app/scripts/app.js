@@ -1,5 +1,7 @@
 'use strict';
 
+(function(angular) {
+
 /**
  * @ngdoc overview
  * @name projectiveDetectiveApp
@@ -30,3 +32,10 @@ angular
         redirectTo: '/'
       });
   });
+
+angular.module('projectiveDetectiveApp')
+  .constant('AppConfig', {
+    apiUrl: 'http://' + location.hostname + ':5000'
+  });
+
+})(angular);
