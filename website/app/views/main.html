@@ -12,17 +12,34 @@
   <div class="row">
     <h2>Enter Info</h2>
     <form role="form" ng-submit="findProjections()">
-      <div class="input-group">
-        <input type="text" ng-model="inputform.x" placeholder="Unknown X" class="form-control">
-        <input type="text" ng-model="inputform.y" placeholder="Unknown Y" class="form-control">
+      <h5>
+        Enter the unknown coordinates. These are the coodinates that have an
+        unknown projection.
+      </h5>
+      <div class="form-group">
+        <label class="sr-only" for="inputformX">Unknown X</label>
+        <input type="text" class="form-control" id="inputformX"
+          ng-model="inputform.x" placeholder="Unknown X">
       </div>
-      <div class="input-group">
-        <input type="text" ng-model="inputform.lat" placeholder="Known Latitude" class="form-control">
-        <input type="text" ng-model="inputform.lng" placeholder="Known Longitude" class="form-control">
+      <div class="form-group">
+        <label class="sr-only" for="inputformY">Unknown Y</label>
+        <input type="text" class="form-control" id="inputformY"
+          ng-model="inputform.y" placeholder="Unknown Y">
       </div>
-      <span class="input-group-btn">
-        <input type="submit" class="btn btn-primary" value="Find">
-      </span>
+      <h5>
+        Enter the known location in WGS84 Lat/Lng. This should be in decimal degrees.
+      </h5>
+      <div class="form-group">
+        <label class="sr-only" for="inputformLat">Known Lat</label>
+        <input type="text" class="form-control" id="inputformLat"
+          ng-model="inputform.lat" placeholder="Known Lat">
+      </div>
+      <div class="form-group">
+        <label class="sr-only" for="inputformLng">Known Lng</label>
+        <input type="text" class="form-control" id="inputformLng"
+          ng-model="inputform.lng" placeholder="Known Lng">
+      </div>
+      <input type="submit" class="btn btn-primary" value="Find">
     </form>
   </div>
 
