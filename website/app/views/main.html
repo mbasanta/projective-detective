@@ -32,12 +32,14 @@
       <div class="form-group">
         <label for="inputformLat">Known Lat</label>
         <input type="text" class="form-control" id="inputformLat"
-          ng-model="inputform.lat" placeholder="Known Lat">
+          ng-model="inputform.lat" placeholder="Known Lat"
+          ng-change="clearMarker()">
       </div>
       <div class="form-group">
         <label for="inputformLng">Known Lng</label>
         <input type="text" class="form-control" id="inputformLng"
-          ng-model="inputform.lng" placeholder="Known Lng">
+          ng-model="inputform.lng" placeholder="Known Lng"
+          ng-change="clearMarker()">
       </div>
       <map zoom="3" center="39, -97" on-click="placeMarker()"></map>
       <div class="form-group">
