@@ -10,6 +10,7 @@
 from flask import Flask, jsonify, make_response, request, abort
 from flask.ext.cors import CORS
 import ctypes
+import os
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -23,7 +24,9 @@ class Match(ctypes.Structure):
 
 def get_candidates(lng, lat, x, y, count=5):
     '''Main tester function'''
-    proj_detective = ctypes.CDLL("projective-detective.so")
+    lib = os.path.join(os.path.dirname(os.path.realpath(__file__)), "projective-detective.so")
+
+    proj_detective = ctypes.CDLL(lib)
     proj_detective.find_projection.restype = ctypes.POINTER(Match)
     proj_detective.find_projection.argtypes = [
         ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_int]
@@ -56,12 +59,12 @@ def internal_server_error(error):
     '''Return 500 Error'''
     return make_response(jsonify({'error': 'Internal Server Error'}), 500)
 
-@app.route('/')
+@app.route('/api')
 def index():
     '''Return base'''
     return jsonify({"Message": "Hello, World!"})
 
-@app.route('/find_proj', methods=['GET'])
+@app.route('/api/find_proj', methods=['GET'])
 def find_proj():
     '''Find projection candiates'''
     if not request.args:
