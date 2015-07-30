@@ -6,6 +6,9 @@
 
 import ctypes
 import datetime
+import os
+
+lib = os.path.join(os.path.dirname(os.path.realpath(__file__)), "projective-detective.so")
 
 class Point(ctypes.Structure):
     '''Python class to mirror point struct in c'''
@@ -22,7 +25,7 @@ def convert_point():
     start = datetime.datetime.now()
 
     #cdll.LoadLibrary("converter.so")
-    proj_detective = ctypes.CDLL("projective-detective.so")
+    proj_detective = ctypes.CDLL(lib)
     proj_detective.find_projection.restype = ctypes.POINTER(Match)
     proj_detective.find_projection.argtypes = [
         ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_int]
