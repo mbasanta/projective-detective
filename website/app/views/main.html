@@ -63,8 +63,8 @@
       known Lat/Lng location. Smaller is better.
     </p>
     <ul>
-      <li ng-repeat="(key, value) in matches">
-      {{key}} ({{value}})
+      <li ng-repeat="match in matches | orderBy:'val'">
+      {{match.key}} ({{match.val}})
       </li>
     </ul>
   </div>

@@ -14,6 +14,14 @@ angular.module('projectiveDetectiveApp')
     var map;
     var marker = null;
 
+    function formatMatches(matches) {
+      var array = [];
+      angular.forEach(matches, function(val, key) {
+        array.push({key: key, val: val});
+      });
+      return array;
+    }
+
     $scope.matches = {};
 
     $scope.numberOptions = [5, 10, 15, 20, 25];
@@ -33,7 +41,8 @@ angular.module('projectiveDetectiveApp')
         getParams,
         function() {
           console.log(proj);
-          $scope.matches = proj.matches;
+          $scope.matches = formatMatches(proj.matches);
+          console.log($scope.matches);
         },
         function() {
           console.log('fail');
