@@ -37,7 +37,7 @@ angular
 angular.module('projectiveDetectiveApp')
   .constant('AppConfig', {
     apiUrl: 'http://projectivedetective.com/api'
-    // apiUrl: 'http://' + location.hostname + ':5000'
+    // apiUrl: 'http://' + location.hostname + ':5000/api'
   });
 
 })(angular);
