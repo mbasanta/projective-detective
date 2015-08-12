@@ -17,7 +17,7 @@
 #include "comparisons.h"
 #include "projective-detective.h"
 
-double find_delta(int x1, int y1, int x2, int y2)
+double find_delta(double x1, double y1, double x2, double y2)
 {
     return sqrt(pow((x2-x1), 2) + pow((y2-y1), 2));
 }
