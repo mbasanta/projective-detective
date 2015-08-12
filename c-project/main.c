@@ -12,9 +12,9 @@
 
 int main() {
 
-    match *matches = find_projection(-84, 38, 5425460, 3892419.8, 5);
+    match *matches = find_projection(-84.123, 38.456, 511084, 106120.999999, 10);
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 10; i++) {
         printf("Comp %u -- %s (%f)\n", i, matches[i].projection, matches[i].delta);
     }
 
