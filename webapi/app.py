@@ -35,7 +35,7 @@ def get_candidates(lng, lat, x, y, count=5):
 
     ret_val = {}
     for i in range(count):
-        ret_val[candidates[i].projection] = candidates[i].delta
+        ret_val[candidates[i].projection] = '{:f}'.format(candidates[i].delta)
 
     return ret_val
 
