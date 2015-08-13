@@ -53,10 +53,10 @@ struct match* find_projection(double lng, double lat, double target_x, double ta
     {
         /* Create our test point */
         struct Point *pt;
-		createNewPointWithVals(&pt, lng, lat);
+        createNewPointWithVals(&pt, lng, lat);
         /* Create our target point */
         struct Point *target;
-		createNewPointWithVals(&target, target_x, target_y);
+        createNewPointWithVals(&target, target_x, target_y);
 
         int count = config_setting_length(setting);
         int i;
@@ -83,21 +83,21 @@ struct match* find_projection(double lng, double lat, double target_x, double ta
             {
                 double delta = find_delta(target->x, target->y, newPt->x, newPt->y) * unit_factor;
 
-				/* Create our memory to hold the comparisons */
-				Comparison *comparison;
+                /* Create our memory to hold the comparisons */
+                Comparison *comparison;
 
 
                 createNewComparisonWithVals(&comparison, unit_factor, delta, (char*) name);
                 addComparisonToList(&list, comparison);
 
-				destroyComparison(&comparison);
+                destroyComparison(&comparison);
             }
             else
             {
                 /* printf("error on %s...\n", name); */
             }
 
-                destroyPoint(&newPt);
+            destroyPoint(&newPt);
         }
 
         destroyPoint(&pt);
