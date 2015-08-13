@@ -7,8 +7,8 @@
  *
  */
 
-/* #include <gdal_alg.h> */
-#include <gdal/gdal_alg.h>
+#include <gdal_alg.h>
+/* #include <gdal/gdal_alg.h> */
 #include "converter.h"
 #include "point.h"
 

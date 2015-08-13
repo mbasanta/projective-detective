@@ -2,6 +2,14 @@
 # Makefile for projective-detective
 #
 
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Darwin)
+	# Do something OSX
+else
+	
+endif
+
 all: clean main projective-detective
 
 main: main.c converter.h converter.c point.h point.c comparisons.h comparisons.c projective-detective.h projective-detective.c
