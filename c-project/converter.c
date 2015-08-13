@@ -7,8 +7,8 @@
  *
  */
 
-#include <gdal_alg.h>
-/* #include <gdal/gdal_alg.h> */
+/* #include <gdal_alg.h> */
+#include <gdal/gdal_alg.h>
 #include "converter.h"
 #include "point.h"
 
@@ -27,7 +27,9 @@ struct Point* convert(struct Point* pt, const char* inWkt, const char* outWkt) {
 
     int projectionSuccess[1] = { FALSE };
 
-    struct Point *returnPt = newPoint(0, 0);
+    struct Point *returnPt;
+    createNewPointWithVals(&returnPt, 0, 0);
+
     int success = GDALReprojectionTransform(transformer, FALSE, 1, x, y, z, projectionSuccess);
     GDALDestroyReprojectionTransformer(transformer);
 

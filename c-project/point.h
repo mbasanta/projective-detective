@@ -17,8 +17,8 @@ struct Point {
 
 static const struct Point EMPTYPOINT;
 
-struct Point *newPoint(double x, double y);
+void createNewPointWithVals(struct Point ** newPoint, double x, double y);
 
-void delPoint(struct Point *point);
+void destroyPoint(struct Point ** point);
 
 #endif

@@ -10,22 +10,16 @@
 #include <stdlib.h>
 #include "point.h"
 
-struct Point *newPoint (double x, double y)
+void createNewPointWithVals(struct Point ** newPoint, double x, double y)
 {
-    struct Point *retVal = malloc (sizeof (struct Point));
-    if (retVal == NULL) {
-        return NULL;
-    }
-
-    retVal->x = x;
-    retVal->y = y;
-
-    return retVal;
+    (*newPoint) = malloc(sizeof(struct Point));
+    (*newPoint)->x = x;
+    (*newPoint)->y = y;
 }
 
-void delPoint (struct Point *point)
+void destroyPoint(struct Point ** point)
 {
-    if (point != NULL) {
-        free(point);
+    if ((*point) != NULL) {
+        free((*point));
     }
 }

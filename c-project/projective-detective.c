@@ -47,19 +47,16 @@ struct match* find_projection(double lng, double lat, double target_x, double ta
     ComparisonList *list;
     createNewComparisonList(&list, count);
 
-    /* Create our memory to hold the comparisons */
-    Comparison *comparison;
-
     /* Get our projections setting */
     setting = config_lookup(&cfg, "projections");
     if (setting != NULL)
     {
         /* Create our test point */
-        /* struct Point *pt = newPoint(-84, 38); */
-        struct Point *pt = newPoint(lng, lat);
+        struct Point *pt;
+		createNewPointWithVals(&pt, lng, lat);
         /* Create our target point */
-        /* struct Point *target = newPoint(5425460, 3892419.8); */
-        struct Point *target = newPoint(target_x, target_y);
+        struct Point *target;
+		createNewPointWithVals(&target, target_x, target_y);
 
         int count = config_setting_length(setting);
         int i;
@@ -86,23 +83,27 @@ struct match* find_projection(double lng, double lat, double target_x, double ta
             {
                 double delta = find_delta(target->x, target->y, newPt->x, newPt->y) * unit_factor;
 
+				/* Create our memory to hold the comparisons */
+				Comparison *comparison;
+
+
                 createNewComparisonWithVals(&comparison, unit_factor, delta, (char*) name);
                 addComparisonToList(&list, comparison);
 
-                delPoint(newPt);
+				destroyComparison(&comparison);
             }
             else
             {
                 /* printf("error on %s...\n", name); */
             }
 
+                destroyPoint(&newPt);
         }
 
-        delPoint(pt);
-        delPoint(target);
+        destroyPoint(&pt);
+        destroyPoint(&target);
     }
 
-    destroyComparison(&comparison);
 
     struct match *returnList = malloc(list[0].size * sizeof(match));
 
