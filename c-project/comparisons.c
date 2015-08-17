@@ -37,7 +37,7 @@ void destroyComparison(Comparison ** comparison)
             free((*comparison)->projection);
         }
         */
-        free((*comparison));
+        free(*comparison);
     }
 }
 
@@ -58,6 +58,7 @@ void destroyComparisonList(ComparisonList ** list)
     for (i = 0; i < (*list)->size; i++) {
         destroyComparison(&((*list)->comparisons[i]));
     }
+    free(*list);
 }
 
 void addComparisonToList(ComparisonList ** list, Comparison * comparison)

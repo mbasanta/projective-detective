@@ -78,7 +78,8 @@ struct match* find_projection(double lng, double lat, double target_x, double ta
                 continue;
             }
 
-            struct Point *newPt = convert(pt, wgs84, wkt);
+            struct Point *newPt = NULL;
+            convert(&pt, &newPt, wgs84, wkt);
             if (newPt != NULL)
             {
                 double delta = find_delta(target->x, target->y, newPt->x, newPt->y) * unit_factor;
@@ -86,10 +87,10 @@ struct match* find_projection(double lng, double lat, double target_x, double ta
                 /* Create our memory to hold the comparisons */
                 Comparison *comparison;
 
-
                 createNewComparisonWithVals(&comparison, unit_factor, delta, (char*) name);
                 addComparisonToList(&list, comparison);
 
+                destroyPoint(&newPt);
                 destroyComparison(&comparison);
             }
             else
@@ -97,13 +98,14 @@ struct match* find_projection(double lng, double lat, double target_x, double ta
                 /* printf("error on %s...\n", name); */
             }
 
-            destroyPoint(&newPt);
         }
 
         destroyPoint(&pt);
         destroyPoint(&target);
     }
 
+    /* Clean up Config data */
+    config_destroy(&cfg);
 
     struct match *returnList = malloc(list[0].size * sizeof(match));
 

@@ -12,6 +12,6 @@
 
 #include "point.h"
 
-struct Point* convert(struct Point* pt, const char* const inWkt, const char* outWkt);
+void convert(struct Point ** pt, struct Point ** newPt, const char* inWkt, const char* outWkt);
 
 #endif
